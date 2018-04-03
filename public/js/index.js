@@ -36,11 +36,11 @@ jQuery('#message-form').on('submit', function(e) {
 })
 
 let locationButton = jQuery("#sendLocation");
-locationButton.on('submit', function() {
+locationButton.on('click', function() {
     if(!navigator.geolocation) {
         return alert('Geolocation not supported by your browser.');
     }
-    
+    console.log('bum')
     navigator.geolocation.getCurrentPosition(function(pos) {
         socket.emit('createLocationMessage', {
             lat: pos.coords.latitude,
