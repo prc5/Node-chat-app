@@ -69,16 +69,16 @@ matedTime = moment(message.createdAt).format('h:mm a');
     jQuery("#messages").append(html);
     scrollToBottom();
 });
-
-jQuery('#message-form').on('submit', function(e) {
+jQuery('#message-form').on('click', function(e) {
     e.preventDefault();
     
     var messageTextbox = jQuery('[name=message]');
-    
+    jQuery("#sendMessage").attr('disabled', 'disabled');
     socket.emit('createMessage', {
         text: messageTextbox.val()
     }, function() {
         messageTextbox.val('');
+        jQuery("#sendMessage").removeAttr('disabled');
     })
 })
 
@@ -88,7 +88,7 @@ locationButton.on('click', function() {
         return alert('Geolocation not supported by your browser.');
     }
     
-    locationButton.attr('disabled', 'disabled').text('Sending...')
+    locationButton.attr('disabled', 'disabled').text('Sending location...')
     
     navigator.geolocation.getCurrentPosition(function(pos) {
         locationButton.removeAttr('disabled').text('Send location');
@@ -100,4 +100,4 @@ locationButton.on('click', function() {
         locationButton.removeAttr('disabled').text('Send location');
         alert('Unable to fetch location');
     })
-})
+});
