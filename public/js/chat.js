@@ -1,4 +1,4 @@
-var socket = io();
+let socket = io();
 
 function scrollToBottom() {
     //Selectors
@@ -18,13 +18,11 @@ function scrollToBottom() {
 
 socket.on('connect', function () {
     var params = jQuery.deparam(window.location.search);
-    
+     
     socket.emit('join', params, function(err) {
         if (err) {
             alert(err);
             window.location.href = '/';
-        } else {
-            console.log('No error')
         }
     })
 });
@@ -72,7 +70,7 @@ matedTime = moment(message.createdAt).format('h:mm a');
 jQuery('#message-form').on('click', function(e) {
     e.preventDefault();
     
-    var messageTextbox = jQuery('[name=message]');
+    let messageTextbox = jQuery('[name=message]');
     jQuery("#sendMessage").attr('disabled', 'disabled');
     socket.emit('createMessage', {
         text: messageTextbox.val()

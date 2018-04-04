@@ -20,18 +20,28 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log("new user connected");
 
+    socket.on('rooms', (rooms) => {
+        socket.emit('getRoomsList', users.getLists())
+    });
+    
     socket.on('join', (params, calback) => {
-        if(!isRealString(params.name) || !isRealString(params.room)) {
+        let roomUppercase = params.room.toLowerCase();
+
+        if(!isRealString(params.name) || !isRealString(roomUppercase)) {
             return calback('Name and room name are required.')
-        }
-        
-        socket.join(params.room);
+        } 
+    
+        socket.join(roomUppercase);
         users.removeUser(socket.id);
-        users.addUser(socket.id, params.name, params.room);
-        
-        io.to(params.room).emit('updateUserList', users.getUserList(params.room));
+        try {
+            users.addUser(socket.id, params.name, roomUppercase);
+        }
+        catch(error) {
+            return calback('This name is already in use.')
+        }
+        io.to(roomUppercase).emit('updateUserList', users.getUserList(roomUppercase));
         socket.emit('newMessage', generateMessage('Admin', 'Welcome to the app'));
-        socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined`));
+        socket.broadcast.to(roomUppercase).emit('newMessage', generateMessage('Admin', `${params.name} has joined`));
         
         calback();
     });

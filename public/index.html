@@ -17,11 +17,15 @@
             </div>
             <div class="form-field">
                 <label>Display name</label>
-                <input type="text" name="name" autofocus>
+                <input type="text" name="name" autofocus placeholder="Enter your name">
             </div>
             <div class="form-field">
                 <label>Room name</label>
-                <input type="text" name="room">
+                <input id="roomName" type="text" name="room" placeholder="Enter room name">
+            </div>
+            <div class="form-field">
+                <label>Active rooms</label>
+                <select id="rooms" name="active" value=""></select>
             </div>
             <div class="form-field">
                 <button type="submit">Join</button>
@@ -33,7 +37,7 @@
     <script src="js/libs/jquery.js"></script>
     <script src="js/libs/moment.js"></script>
     <script src="js/libs/mustache.js"></script>
-    <script src="js/chat.js"></script>
+    <script src="js/index.js"></script>
 </body>
 
 </html>
